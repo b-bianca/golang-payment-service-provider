@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  postgres:
+    container_name: postgres-psp
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      APP_DB_USER: ${APP_DB_USER}
+      APP_DB_PASS: ${APP_DB_PASS}
+      APP_DB_NAME: ${APP_DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+     - ./postgres-data:/var/lib/postgresql/data  
+    networks:
+      - golang-psp
+
+
+  pgadmin:
+    container_name: pgadmin-psp
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "15432:80"
+    networks:
+      - golang-psp
+
+networks:
+  golang-psp:
+    driver: bridge
+    
